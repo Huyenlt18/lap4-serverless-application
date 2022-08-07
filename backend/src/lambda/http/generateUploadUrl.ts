@@ -3,8 +3,8 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
-import { AttachmentUtils } from '../../helpers/attachmentUtils'
-import { updateAttachmentUrl } from '../../helpers/todos'
+import { AttachmentUtils } from '../../dataLayer/attachmentUtils'
+import { updateAttachmentUrl } from '../../bussinessLogic/todos'
 import { getUserId } from '../utils'
 import { createLogger } from "../../utils/logger";
 import { v4 as uuidv4 } from 'uuid';
