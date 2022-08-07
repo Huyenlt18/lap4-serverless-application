@@ -67,7 +67,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
     const response = await Axios.get(jwksUrl)
     const tokenKey = response.data.keys[0].x5c[0]
     const cert = '-----BEGIN CERTIFICATE-----\n' + tokenKey + '\n-----END CERTIFICATE-----'
-    return verify(token, cert, { algorithms: ['RS256'] }) as JwtPayload
+    return verify(token, cert, { algorithms: [jwt.header.alg] }) as JwtPayload
   } catch (err) {
     logger.error('Authentication fail !!!', err)
   }
