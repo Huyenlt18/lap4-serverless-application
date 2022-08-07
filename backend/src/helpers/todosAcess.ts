@@ -83,13 +83,12 @@ export class TodosAccess {
                 todoId: todoId
             }
         })
-         //delete s3 object
          const params = {
             Bucket: this.bucketName,
             Key: todoId
         }
         await this.s3.deleteObject(params, function (err, data) {
-            if (err) logger.info('error while deleting object', err.stack)
+            if (err) logger.info('error deleting', err.stack)
             else logger.info(data)
         }).promise()
     }

@@ -23,7 +23,6 @@ export const handler = middy(
           item
         })
       }
-
     } catch (e) {
       logger.error(e.message)
       return {
@@ -31,10 +30,8 @@ export const handler = middy(
         body: e.message
       }
     }
-
   }
 )
-
 handler.use(
   cors({
     credentials: true

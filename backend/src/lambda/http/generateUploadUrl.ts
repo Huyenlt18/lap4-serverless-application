@@ -18,17 +18,10 @@ export const handler = middy(
     const userId = getUserId(event)
     try {
       const attachmentId = uuidv4()
-
       let uploadUrl = await attachmentUtils.createAttachmentPresignedUrl(attachmentId);
-  
       const attachmentUrl = await attachmentUtils.getAttachmentUrl(attachmentId)
-  
       await updateAttachmentUrl(userId, todoId, attachmentUrl)
-  
-
-      logger.info('Upload URL: ' + uploadUrl)
-
-      return {
+       return {
         statusCode: 201,
         headers: {
           'Access-Control-Allow-Origin': '*',
@@ -47,7 +40,6 @@ export const handler = middy(
     }
   }
 )
-
 handler
   .use(httpErrorHandler())
   .use(

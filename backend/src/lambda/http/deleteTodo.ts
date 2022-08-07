@@ -32,7 +32,6 @@ export const handler = middy(
     }
   }
 )
-
 handler
   .use(httpErrorHandler())
   .use(

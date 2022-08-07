@@ -1,21 +1,13 @@
 import { TodosAccess } from './todosAcess'
-//import { AttachmentUtils } from './attachmentUtils';
 import { TodoItem } from '../models/TodoItem'
 import { TodoUpdate } from '../models/TodoUpdate'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
-//import * as createError from 'http-errors'
-
 // TODO: Implement businessLogic
 const logger = createLogger('businessLogic-todos')
-//const logger = createLogger('todos')
-
 const todosAccess = new TodosAccess()
-
-
-
 export async function getAllTodosForUser(userId: string): Promise<TodoItem[]> {
     logger.info('call todos.getTodosForUser: ' + userId);
     return todosAccess.getAllTodosForUser(userId)
@@ -48,8 +40,8 @@ export async function updateAttachmentUrl(userId: string, todoId: string, attach
   return todosAccess.updateAttachmentUrl(userId, todoId, attachmentUrl)
 }
 
-  export async function deleteTodo(userId: string, todoId: string) {
-    logger.info('call todos.createTodo: ' + userId + "," + todoId);
-    return todosAccess.deleteTodo(userId, todoId)
+export async function deleteTodo(userId: string, todoId: string) {
+  logger.info('call todos.createTodo: ' + userId + "," + todoId);
+  return todosAccess.deleteTodo(userId, todoId)
     
-  }
+}
