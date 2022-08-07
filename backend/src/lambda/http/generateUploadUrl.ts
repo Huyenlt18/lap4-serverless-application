@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 import { AttachmentUtils } from '../../helpers/attachmentUtils'
-import { updateAttachmentUrl} from '../../helpers/todos'
+import { updateAttachmentUrl } from '../../helpers/todos'
 import { getUserId } from '../utils'
 import { createLogger } from "../../utils/logger";
 import { v4 as uuidv4 } from 'uuid';
@@ -21,7 +21,7 @@ export const handler = middy(
       let uploadUrl = await attachmentUtils.createAttachmentPresignedUrl(attachmentId);
       const attachmentUrl = await attachmentUtils.getAttachmentUrl(attachmentId)
       await updateAttachmentUrl(userId, todoId, attachmentUrl)
-       return {
+      return {
         statusCode: 201,
         headers: {
           'Access-Control-Allow-Origin': '*',

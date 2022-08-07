@@ -2,7 +2,7 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
-import { getAllTodosForUser} from '../../helpers/todos'
+import { getAllTodosForUser } from '../../helpers/todos'
 import { getUserId } from '../utils';
 import { createLogger } from "../../utils/logger";
 const logger = createLogger("get-todo");
@@ -10,25 +10,25 @@ const logger = createLogger("get-todo");
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     // Write your code here
-   try{
-     const userId = getUserId(event)
-    const todos = await getAllTodosForUser(userId)
-    return {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        items: todos
-      })
+    try {
+      const userId = getUserId(event)
+      const todos = await getAllTodosForUser(userId)
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          items: todos
+        })
+      }
+    } catch (e) {
+      logger.error(e.message)
+      return {
+        statusCode: 500,
+        body: e.message
+      }
     }
-  }catch (e) {
-    logger.error(e.message)
-    return {
-      statusCode: 500,
-      body: e.message
-    }
-  }
   }
 )
 handler.use(

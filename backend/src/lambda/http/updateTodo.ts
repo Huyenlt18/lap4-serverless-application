@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-import { updateTodo } from '../../helpers/todos'
+import { updateTodo } from '../../bussinessLogic/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
 import { getUserId } from '../utils'
 import { createLogger } from "../../utils/logger";
@@ -17,6 +17,12 @@ export const handler = middy(
       // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
       const userId = getUserId(event)
       const resultItem = await updateTodo(userId, todoId, updatedTodo)
+      if(resultItem.name.trim() ==""){
+        return {
+          statusCode: 400,
+          body: "Please enter name !"
+        }
+      }
       return {
         statusCode: 201,
         headers: {
