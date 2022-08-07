@@ -95,14 +95,11 @@ export class TodosAccess {
     }
 }
 
-function createDynamoDBClient() {
-    if (process.env.IS_OFFLINE) {
-        logger.info('Creating a local DynamoDB instance')
-        return new XAWS.DynamoDB.DocumentClient({
-            region: 'localhost',
-            endpoint: 'http://localhost:8000'
-        })
-    }
-
-    return new XAWS.DynamoDB.DocumentClient()
-}
+function createDynamoDBClient(): DocumentClient {
+    const service = new AWS.DynamoDB()
+    const client = new AWS.DynamoDB.DocumentClient({
+      service: service
+    })
+    AWSXRay.captureAWSClient(service)
+    return client
+  }

@@ -1,10 +1,10 @@
 import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
 import 'source-map-support/register'
 
-import { verify, decode } from 'jsonwebtoken'
+import { verify } from 'jsonwebtoken'
 import { createLogger } from '../../utils/logger'
 import Axios from 'axios'
-import { Jwt } from '../../auth/Jwt'
+//import { Jwt } from '../../auth/Jwt'
 import { JwtPayload } from '../../auth/JwtPayload'
 
 const logger = createLogger('auth')
@@ -12,7 +12,7 @@ const logger = createLogger('auth')
 // TODO: Provide a URL that can be used to download a certificate that can be used
 // to verify JWT token signature.
 // To get this URL you need to go to an Auth0 page -> Show Advanced Settings -> Endpoints -> JSON Web Key Set
-const jwksUrl = '...'
+const jwksUrl = 'https://dev-pvq5dmjg.us.auth0.com/.well-known/jwks.json'
 
 export const handler = async (
   event: CustomAuthorizerEvent
@@ -58,7 +58,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
 
   try {
     const token = getToken(authHeader)
-    const jwt: Jwt = decode(token, { complete: true }) as Jwt
+   // const jwt: Jwt = decode(token, { complete: true }) as Jwt
 
 
     // TODO: Implement token verification
@@ -67,7 +67,7 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
     const response = await Axios.get(jwksUrl)
     const tokenKey = response.data.keys[0].x5c[0]
     const cert = '-----BEGIN CERTIFICATE-----\n' + tokenKey + '\n-----END CERTIFICATE-----'
-    return verify(token, cert, { algorithms: [jwt.header.alg] }) as JwtPayload
+    return verify(token, cert, { algorithms: ['RS256'] }) as JwtPayload
   } catch (err) {
     logger.error('Authentication fail !!!', err)
   }
